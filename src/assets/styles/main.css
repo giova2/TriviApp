@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screen;
+
+.topnav {
+  height: 15vh;
+}
+
+.questions {
+  height: 85vh;
+}
