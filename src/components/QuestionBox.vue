@@ -26,13 +26,20 @@
     </div>
     <div class="w-full mb-4 bg-gray-400">
       <button
+        @click="restartFn"
+        v-if="lastQuestion"
+        class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold my-2 py-2 px-4 rounded"
+      >Restart</button>
+
+      <button
         @click="submitAnswer"
         class="bg-green-500 hover:bg-green-700 text-white font-bold m-2 py-2 px-4 rounded"
-        v-show="selectedAnswerIndex !== null"
+        v-show="selectedAnswerIndex !== null && !answered"
         :disabled="answered"
       >Submit</button>
       <button
-        @click="next"
+        @click="nextQuestion"
+        v-show="!lastQuestion"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold my-2 py-2 px-4 rounded"
       >Next</button>
     </div>
@@ -47,6 +54,8 @@ export default {
     question: Object,
     next: Function,
     increment: Function,
+    lastQuestion: Boolean,
+    restartFn: Function
   },
   data() {
     return {
@@ -71,19 +80,8 @@ export default {
         this.shuffleAnswers();
       },
     },
-    // what we do in the watch section is create some methods to react to some changes on variables
-    // question() {
-    //   this.selectedAnswerIndex = null;
-    //   this.shuffleAnswers();
-    // },
   },
-  computed: {
-    // answers() {
-    //   let answers = [...this.question.incorrect_answers];
-    //   answers.push(this.question.correct_answer);
-    //   return answers;
-    // },
-  },
+  
   methods: {
     difficultyClass(difficulty) {
       const normalizedDifficulty = difficulty.toLowerCase()[0];
@@ -118,8 +116,13 @@ export default {
       return answerClass;
     },
     selectAnswer(index) {
-      console.log({ index });
       this.selectedAnswerIndex = index;
+    },
+    nextQuestion() {
+      if(!this.answered){
+        this.submitAnswer()
+      }
+      this.next()
     },
     submitAnswer() {
       let isCorrect = false;

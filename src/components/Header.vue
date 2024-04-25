@@ -27,16 +27,7 @@ export default {
     counter: Number,
     totalQuestions: Number,
     correctAnswersTotal: Number,
-  },
-  computed: {
-    incorrectAnswers() {
-      return this.counter - this.correctAnswersTotal;
-    },
+    incorrectAnswers: Number
   },
 };
 </script>
-<style>
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-</style>
